@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Sixoloy's movie life</title>
+<link rel="stylesheet" type="text/javascript" href="/bootstrap/css/bootstrap.min.css">
+<script type="text/javascript" src="/bootstrap/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+	#main {margin-left: 5%;}
+</style>
+
+</head>
+
+<body>
+	<div class="div" id="main">
+		<h2 class="h2" style="display: block;">Welcome</h2>
+	    <ul>
+	    	%content%
+	    </ul>
+	    <p><button class="button" type="submit" onclick="stop()">Stop Transcoding!</button></p>
+	    <p><button class="button" type="submit" onclick="clean()">Clean TMP!</button></p>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+	window._alert = window.alert;
+	window.alert = function(){
+		_alert(Array.prototype.slice.call(arguments).join(""));
+	};
+
+	function stop() {
+
+		$.ajax({
+            type: "post",
+            url: "./resources",
+            data: {'action':'stop'},
+            async: true,
+            dataType: 'html',
+            success: function(data){
+           		alert(data);
+            },
+            error: function(req, err){
+            	alert(err);
+            }
+
+        });
+	}
+	function clean() {
+		$.ajaxSetup({ cache: false });
+		$.ajax({
+            type: 'POST',
+            url: '/resources',
+            data: {'action':'clean'},
+
+            success: function(data){
+           		alert(data);
+            },
+            error: function(req, err){
+            	alert(err);
+            }
+
+        });
+	}
+</script>
