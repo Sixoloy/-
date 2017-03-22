@@ -1,4 +1,4 @@
-var PORT = 8899;
+var PORT = 80;
 var ADDRESS = "0.0.0.0";
 
 var HTTP = require("http");
@@ -14,7 +14,7 @@ var MIME = require("./mime.js");
 
 var server = HTTP.createServer(function (request, response) {
 	var arg = URL.parse(request.url, true).query;
-	var pathname_re = URL.parse(request.url).pathname;
+	var pathname_re = QUERY.unescape(URL.parse(request.url).pathname);
 	var pathname_abs = PATH.join(__dirname, pathname_re);
 	var fileExtension = pathname_re.substring(pathname_re.lastIndexOf('.') + 1);
 
@@ -70,6 +70,23 @@ var server = HTTP.createServer(function (request, response) {
 				UTILS.rmDir(tmpPath, tmpPath);
 				return;
 			}	
+
+			else if (arg && arg.action == "shutdown") {
+				CHILD.exec('shutdown -f -s', { encoding: "gbk" }, (error, stdout, stderr) => {
+				    if (error) {
+				    	console.log(decode(stdout));
+		  				console.log(decode(stderr));
+				        response.write("shutdown error!");
+				        response.end();
+				        return;
+				    }
+				    console.log(decode(stdout));
+		  			console.log(decode(stderr));
+		  			response.write("PC shut down right away!");
+		  			response.end();
+				});
+				return;
+			}
 
 	    });
 	}

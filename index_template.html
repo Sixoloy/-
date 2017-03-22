@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Sixoloy's movie life</title>
-<link rel="stylesheet" type="text/javascript" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript" src="/bootstrap/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
@@ -21,6 +21,7 @@
 	    </ul>
 	    <p><button class="button" type="submit" onclick="stop()">Stop Transcoding!</button></p>
 	    <p><button class="button" type="submit" onclick="clean()">Clean TMP!</button></p>
+	    <p><button class="button" type="submit" onclick="shutdown()">Shut Down!</button></p>
     </div>
 </body>
 </html>
@@ -46,7 +47,6 @@
             error: function(req, err){
             	alert(err);
             }
-
         });
 	}
 	function clean() {
@@ -55,14 +55,26 @@
             type: 'POST',
             url: '/resources',
             data: {'action':'clean'},
-
             success: function(data){
            		alert(data);
             },
             error: function(req, err){
             	alert(err);
             }
-
         });
 	}
+	function shutdown() {
+		$.ajax({
+			type: 'POST',
+            url: '/resources',
+            data: {'action':'shutdown'},
+            success: function(data){
+           		alert(data);
+            },
+            error: function(req, err){
+            	alert(err);
+            }
+		});
+	}
+
 </script>
